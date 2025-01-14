@@ -1,0 +1,158 @@
+local OrionLib = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Orion/main/source'))()
+
+local Window = OrionLib:MakeWindow({Name = "Ultimate Speed Simulator - theyhoppingonme on discord", HidePremium = false, SaveConfig = false, ConfigFolder = "OrionTest"})
+
+local Tab = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "Autofarm (U to stop)",
+	Callback = function()
+      	local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+local orbModels = {}
+local stopTeleport = false
+local scannedOrbs = {}
+local MIN_ORB_SIZE = Vector3.new(6, 6, 6)
+
+local function hasGlowOrFireEffect(model)
+    for _, part in ipairs(model:GetDescendants()) do
+        if part:IsA("ParticleEmitter") or part:IsA("Fire") or part:IsA("PointLight") then
+            return true
+        end
+    end
+    return false
+end
+
+local function isValidOrbSize(model)
+    local targetPart = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart")
+    if targetPart then
+        return targetPart.Size.X >= MIN_ORB_SIZE.X and targetPart.Size.Y >= MIN_ORB_SIZE.Y and targetPart.Size.Z >= MIN_ORB_SIZE.Z
+    end
+    return false
+end
+
+local function collectNewOrbModels()
+    for _, child in ipairs(workspace:GetDescendants()) do
+        if child:IsA("Model") and child.Name == "Model" and not scannedOrbs[child] then
+            if hasGlowOrFireEffect(child) and isValidOrbSize(child) then
+                table.insert(orbModels, child)
+                scannedOrbs[child] = true
+            end
+        end
+    end
+end
+
+local function teleportToOrbModel(model)
+    local targetPart = model.PrimaryPart or model:FindFirstChildWhichIsA("BasePart")
+    if targetPart then
+        print("Teleporting to orb with size:", targetPart.Size)
+        
+        humanoidRootPart.CFrame = targetPart.CFrame + Vector3.new(0, 5, 0) -- Offset to avoid clipping
+        print("Teleported to orb with effect:", model.Name)
+        
+        scannedOrbs[model] = nil
+    end
+end
+
+
+local function startTeleporting()
+    while not stopTeleport do
+        collectNewOrbModels()
+
+        for _, model in ipairs(orbModels) do
+            if stopTeleport then break end
+            if isValidOrbSize(model) then 
+                teleportToOrbModel(model)
+                wait(0)  
+            end
+        end
+
+        wait(0)
+    end
+    print("Stopped teleporting.")
+end
+
+local UserInputService = game:GetService("UserInputService")
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if gameProcessed then return end
+    if input.KeyCode == Enum.KeyCode.U then
+        stopTeleport = true
+    end
+end)
+
+startTeleporting()
+
+  	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "Teleporters",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "Teleport to the white house",
+	Callback = function()
+      	local teleportLocation = Vector3.new(-1335.94, 3736.83, 1105.86)
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Teleport to the farm",
+	Callback = function()
+      	local teleportLocation = Vector3.new(-505.46, 3301.43, 3621.83)
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Teleport to the volcano",
+	Callback = function()
+      	local teleportLocation = Vector3.new(2825.60, 3159.83, 765.07)
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Teleport to space",
+	Callback = function()
+      	local teleportLocation = Vector3.new(633.13, 6304.95, -1865.75)
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Teleport to the beach",
+	Callback = function()
+      	local teleportLocation = Vector3.new(1179.98, 3157.56, -3784.87)
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Teleport to race end",
+	Callback = function()
+      	local teleportLocation = Vector3.new(-2509.50, 3161.52, -2528.28)
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
+  	end    
+})
+
+local Tab = Window:MakeTab({
+	Name = "Misc",
+	Icon = "rbxassetid://4483345998",
+	PremiumOnly = false
+})
+
+Tab:AddButton({
+	Name = "Infinite Yield",
+	Callback = function()
+      	loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
+  	end    
+})
