@@ -139,7 +139,15 @@ Tab:AddButton({
 Tab:AddButton({
 	Name = "Teleport to race end",
 	Callback = function()
-      	local teleportLocation = Vector3.new(-2509.50, 3161.52, -2528.28)
+      	local teleportLocation = Vector3.new(-2475.22, 3157.49, -2510.37)
+        game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
+  	end    
+})
+
+Tab:AddButton({
+	Name = "Teleport to main place",
+	Callback = function()
+      	local teleportLocation = Vector3.new(-754.06, 3158.61, -735.22)
         game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(teleportLocation))
   	end    
 })
